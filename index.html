@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alofte</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="matrix-rain"></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <main>
+        <div class="hero">
+            <h1 class="logo">Alofte</h1>
+            <div class="subtitle">Python Developer • Music Producer</div>
+        </div>
+
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">Python Projects</h2>
+                <div class="projects">
+                    <div class="project-card">
+                        <h3>Gpinger</h3>
+                        <p>A powerful ping tool with advanced features for network diagnostics</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Networking</span>
+                        </div>
+                        <a href="https://github.com/Alofte/Gpinger" class="project-btn" target="_blank">View Project</a>
+                    </div>
+                    
+                    <div class="project-card">
+                        <h3>Spotify Ad Muter</h3>
+                        <p>Automatically mutes Spotify during advertisements</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Audio Control</span>
+                        </div>
+                        <a href="https://github.com/Alofte/SpotifyAdMuter" class="project-btn" target="_blank">View Project</a>
+                    </div>
+                </div>
+                
+                <div class="github-card">
+                    <i class="fab fa-github"></i>
+                    <h3>Check More Projects</h3>
+                    <p>Explore more of my projects on GitHub</p>
+                    <a href="https://github.com/Alofte" class="project-btn" target="_blank">Visit GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="music" class="section">
+            <h2 class="section-title">Music</h2>
+            <div class="waveform-container">
+                <div class="waveform">
+                    <!-- Bars will be added by JavaScript -->
+                </div>
+            </div>
+            <div class="spotify-embed">
+                <iframe 
+                    src="https://open.spotify.com/embed/artist/0xdhGWTdZ6bTR0RdkKAqb5?utm_source=generator" 
+                    width="100%" 
+                    height="380" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+                </iframe>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title">Contact Me</h2>
+                <div class="contact-links">
+                    <a href="mailto:alofte.dev@gmail.com" class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/alofte-py-090680304/" class="contact-item" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/Alofte" class="contact-item" target="_blank">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Alofte. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <canvas id="matrix-canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
