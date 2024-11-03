@@ -60,6 +60,17 @@ body {
     letter-spacing: 2px;
     text-transform: uppercase;
     animation: float 3s ease-in-out infinite;
+    position: relative;
+    display: inline-block;
+}
+
+.logo::before, .logo::after {
+    content: 'Alofte';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: rgba(0, 255, 157, 0.5);
+    animation: glitch 1s infinite;
 }
 
 .subtitle {
@@ -179,14 +190,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 30px;
 }
 
 .waveform-bar {
-    width: 4px;
+    width: 15px;
     background: var(--primary);
-    border-radius: 2px;
-    transition: height 0.2s ease;
+    border-radius: 9px;
+    transition: height 0.5s ease;
 }
 
 .spotify-embed {
@@ -195,13 +206,8 @@ body {
     margin: 2rem auto;
     border-radius: 12px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 255, 157, 0.05);
     padding: 1rem;
-}
-
-.spotify-embed iframe {
-    border-radius: 12px;
-    background: transparent;
 }
 
 /* Project button styling */
@@ -281,6 +287,30 @@ footer {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
+}
+
+@keyframes glitch {
+    0% { text-shadow: 1px 1px var(--primary), -1px -1px var(--primary); }
+    20% { text-shadow: -1px -1px var(--primary), 1px 1px var(--primary); }
+    40% { text-shadow: 1px -1px var(--primary), -1px 1px var(--primary); }
+    60% { text-shadow: -1px 1px var(--primary), 1px -1px var(--primary); }
+    100% { text-shadow: 0 0 var(--primary); }
+}
+
+/* Scroll Arrow */
+.scroll-arrow {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: var(--primary);
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 /* Media Queries */
