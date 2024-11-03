@@ -109,213 +109,36 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    createWaveform(); // Recreate waveform on resize
 });
 
 // Loading Animation
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
-    
-    // Initialize section animations
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(50px)';
-    });
-    
-    setTimeout(() => {
-        sections.forEach(section => {
-            section.style.transition = 'all 1s ease';
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        });
-    }, 500);
 });
-
-// Project Cards Hover Effect
-const projectCards = document.querySelectorAll('.project-card');
-projectCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        const icons = card.querySelectorAll('i');
-        icons.forEach(icon => {
-            icon.style.transform = 'scale(1.2)';
-            icon.style.color = 'var(--primary)';
-        });
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        const icons = card.querySelectorAll('i');
-        icons.forEach(icon => {
-            icon.style.transform = 'scale(1)';
-            icon.style.color = 'var(--light)';
-        });
-    });
-});
-
-// Dark Mode preference handling
-const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-function handleDarkMode(e) {
-    if (e.matches) {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-}
-prefersDarkScheme.addListener(handleDarkMode);
-handleDarkMode(prefersDarkScheme);
 
 // Waveform Animation
 function createWaveform() {
     const waveform = document.querySelector('.waveform');
-    if (!waveform) return;
-    
+    const barsCount = 30; // Number of bars in the waveform
     waveform.innerHTML = ''; // Clear existing bars
-    const barCount = 50;
-    
-    for (let i = 0; i < barCount; i++) {
+
+    for (let i = 0; i < barsCount; i++) {
         const bar = document.createElement('div');
         bar.classList.add('waveform-bar');
         waveform.appendChild(bar);
     }
-    
-    animateWaveform();
-}
 
-function animateWaveform() {
     const bars = document.querySelectorAll('.waveform-bar');
-    bars.forEach(bar => {
-        const height = Math.random() * 100;
-        bar.style.height = `${height}%`;
-    });
-    
-    setTimeout(animateWaveform, 100);
-}
 
-// Typewriter effect for subtitle
-function typeWriter(element, text, speed = 50) {
-    let i = 0;
-    element.innerHTML = ''; // Clear existing text
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    type();
-}
-
-// Parallax effect for background
-function parallaxEffect() {
-    const elements = document.querySelectorAll('.parallax');
-    window.addEventListener('scroll', () => {
-        elements.forEach(elem => {
-            const speed = elem.dataset.speed;
-            const yPos = -(window.pageYOffset * speed);
-            elem.style.backgroundPositionY = yPos + 'px';
+    function animateWaveform() {
+        bars.forEach((bar, index) => {
+            const height = Math.random() * 100 + 20; // Random height between 20 and 120
+            bar.style.height = height + 'px';
         });
-    });
-}
-
-// Lazy loading for images
-function lazyLoadImages() {
-    const images = document.querySelectorAll('img[data-src]');
-    const options = {
-        threshold: 0,
-        rootMargin: "0px 0px 300px 0px"
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                observer.unobserve(img);
-            }
-        });
-    }, options);
-
-    images.forEach(img => observer.observe(img));
-}
-
-// Initialize all functions
-function init() {
-    createWaveform();
-    const subtitle = document.querySelector('.subtitle');
-    if (subtitle) {
-        typeWriter(subtitle, "Python Developer • Music Producer");
     }
-    parallaxEffect();
-    lazyLoadImages();
+
+    setInterval(animateWaveform, 300);
 }
 
-// Call init on window load
-window.addEventListener('load', init);
-
-// Smooth scroll to top button
-const scrollTopBtn = document.createElement('button');
-scrollTopBtn.innerHTML = '↑';
-scrollTopBtn.classList.add('scroll-top-btn');
-document.body.appendChild(scrollTopBtn);
-
-scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
-
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        scrollTopBtn.style.display = 'block';
-    } else {
-        scrollTopBtn.style.display = 'none';
-    }
-});
-
-// Add this to your existing resize event listener
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    createWaveform(); // Recreate waveform on resize
-});
-
-// Optional: Add a simple preloader
-const preloader = document.createElement('div');
-preloader.classList.add('preloader');
-preloader.innerHTML = '<div class="spinner"></div>';
-document.body.appendChild(preloader);
-
-window.addEventListener('load', () => {
-    preloader.style.display = 'none';
-});
-
-// Optional: Add a simple form validation if you have a contact form
-const form = document.querySelector('form');
-if (form) {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Add your form validation logic here
-        console.log('Form submitted');
-        // You can add AJAX submission here if needed
-    });
-}
-
-// Optional: Add a simple animation to project cards on scroll
-const animateOnScroll = () => {
-    const elements = document.querySelectorAll('.project-card, .github-card');
-    elements.forEach(elem => {
-        const elemTop = elem.getBoundingClientRect().top;
-        const elemBottom = elem.getBoundingClientRect().bottom;
-        if (elemTop < window.innerHeight && elemBottom > 0) {
-            elem.classList.add('animate');
-        }
-    });
-};
-
-window.addEventListener('scroll', animateOnScroll);
-
-// Call functions that need to run on load
-window.addEventListener('load', () => {
-    init();
-    animateOnScroll();
-});
+// Initialize waveform
+createWaveform();
