@@ -1,106 +1,2810 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alofte</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
-<body>
-    <div id="matrix-rain"></div>
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+    <meta name="description" content="متین فروتن - برنامه‌نویس پایتون و کارشناس مدیریت بازرگانی">
+    <title>نام شما | Python Developer & Business Analyst</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    
+    <style>
+        /* ==================== Variables ==================== */
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --dark-bg: #f8fafc;
+            --darker-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            --gradient-3: linear-gradient(135deg, #10b981 0%, #6366f1 100%);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.18);
+        }
 
-    <main>
-        <div class="hero">
-            <h1 class="logo">Alofte</h1>
-            <div class="subtitle">Python Developer • Music Producer</div>
-            <div class="scroll-arrow">⬇</div>
+        /* Dark Mode */
+        [data-theme="dark"] {
+            --dark-bg: #0f172a;
+            --darker-bg: #020617;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.2);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.3);
+            --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ==================== Reset & Base ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* ==================== Scrollbar ==================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* ==================== Reading Progress Bar ==================== */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--gradient-1);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* ==================== Preloader ==================== */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid transparent;
+            border-top-color: var(--primary-color);
+            border-right-color: var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==================== Animated Background ==================== */
+        .animated-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        /* Gradient Mesh */
+        .gradient-mesh {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+        }
+
+        [data-theme="dark"] .gradient-mesh {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1) rotate(5deg);
+                opacity: 0.8;
+            }
+        }
+
+        /* Floating Code Snippets */
+        .code-snippet {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            opacity: 0.15;
+            animation: float 20s infinite;
+            pointer-events: none;
+        }
+
+        [data-theme="dark"] .code-snippet {
+            opacity: 0.2;
+        }
+
+        .code-snippet:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .code-snippet:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
+        .code-snippet:nth-child(3) { top: 40%; left: 20%; animation-delay: 4s; }
+        .code-snippet:nth-child(4) { top: 60%; right: 25%; animation-delay: 6s; }
+        .code-snippet:nth-child(5) { top: 80%; left: 15%; animation-delay: 8s; }
+        .code-snippet:nth-child(6) { top: 30%; right: 10%; animation-delay: 10s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px);
+            }
+            75% {
+                transform: translateY(-20px) translateX(5px);
+            }
+        }
+
+        /* Geometric Shapes */
+        .geometric-shape {
+            position: absolute;
+            border: 2px solid rgba(99, 102, 241, 0.1);
+            animation: rotate 30s infinite linear;
+        }
+
+        [data-theme="dark"] .geometric-shape {
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            top: 15%;
+            right: 20%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 5s;
+        }
+
+        .shape-3 {
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 30%;
+            border-radius: 50%;
+            animation-delay: 10s;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ==================== Navigation ==================== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] nav {
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            color: var(--text-primary);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* ==================== Hero Section ==================== */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            animation: gradientText 3s ease infinite;
+        }
+
+        @keyframes gradientText {
+            0%, 100% {
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                filter: hue-rotate(10deg);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            min-height: 60px;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Ripple Effect Button */
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .social-links {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.3rem;
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow);
+            color: var(--primary-color);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounceArrow 2s infinite;
+        }
+
+        @keyframes bounceArrow {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-15px) translateX(-50%); }
+            60% { transform: translateY(-7px) translateX(-50%); }
+        }
+
+        .scroll-indicator i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        /* ==================== Sections ==================== */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+            padding: 0 1rem;
+        }
+
+        /* ==================== About Section ==================== */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image-content {
+            width: 100%;
+            height: 400px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .about-image-content i {
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .about-image-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary-color);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .about-content h3 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1.5rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            transition: var(--transition);
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            line-height: 1.3;
+        }
+
+        /* ==================== Skills Section ==================== */
+        .skills-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .skills-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .skill-category {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 2px solid var(--glass-border);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--glass-border);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .skills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Glassmorphism Skill Badge */
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .skill-item:hover {
+            border-color: var(--primary-color);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .skill-item i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .skill-name {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* ==================== Projects Section ==================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* Tilt Effect Card */
+        .project-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 2px solid var(--glass-border);
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .project-card:hover .project-image::before {
+            opacity: 1;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--primary-color);
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+        }
+
+        .project-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .project-stat i {
+            color: var(--primary-color);
+        }
+
+        /* Dropdown Button */
+        .project-expand-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 0 0 18px 18px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Vazirmatn', sans-serif;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .project-expand-btn:hover {
+            background: var(--gradient-2);
+        }
+
+        .project-expand-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-expand-btn i {
+            transform: translateY(3px);
+        }
+
+        /* ==================== Modal ==================== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 3% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1000px;
+            border-radius: 20px;
+            position: relative;
+            animation: slideDown 0.4s ease;
+            box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1;
+            width: 45px;
+            height: 45px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            background: var(--gradient-1);
+            padding: 3rem;
+            border-radius: 20px 20px 0 0;
+            color: white;
+        }
+
+        .modal-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header .project-tags {
+            margin-top: 1rem;
+        }
+
+        .modal-header .tag {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .modal-body {
+            padding: 3rem;
+        }
+
+        .modal-section {
+            margin-bottom: 3rem;
+        }
+
+        .modal-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .modal-section h3 i {
+            color: var(--primary-color);
+        }
+
+        .modal-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .modal-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .modal-section li {
+            color: var(--text-secondary);
+            padding: 0.8rem 0;
+            padding-right: 1.5rem;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .modal-section li::before {
+            content: '←';
+            position: absolute;
+            right: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Animated Data Flow */
+        .data-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid var(--glass-border);
+            flex-wrap: nowrap;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 0 0 auto;
+            min-width: 80px;
+        }
+
+        .flow-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+        }
+
+        .flow-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            animation: slideArrow 1.5s infinite;
+            flex: 0 0 auto;
+        }
+
+        @keyframes slideArrow {
+            0%, 100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(5px);
+                opacity: 0.5;
+            }
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .impact-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .impact-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .impact-number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-item {
+            padding: 0.8rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .tech-item:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* ==================== Contact Section ==================== */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-method {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            transition: var(--transition);
+            border: 2px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .contact-method:hover {
+            border-color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .contact-details {
+            text-align: center;
+            flex: 1;
+        }
+
+        .contact-details h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Neumorphism Form */
+        .contact-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--glass-border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Vazirmatn', sans-serif;
+            transition: var(--transition);
+            font-size: 1rem;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), 
+                        inset -2px -2px 5px rgba(255,255,255,0.05);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-glow),
+                        inset 2px 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .form-submit::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .form-submit:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ==================== Footer ==================== */
+        footer {
+            background: var(--darker-bg);
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(-5px);
+        }
+
+        .footer-links li:not(:has(a)) {
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom p {
+            margin-bottom: 1rem;
+        }
+
+        /* ==================== Scroll to Top ==================== */
+        #scrollTop {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            z-index: 999;
+            transition: var(--transition);
+        }
+
+        #scrollTop:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ==================== Responsive ==================== */
+        @media (max-width: 968px) {
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background: var(--card-bg);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow-lg);
+                padding: 2rem 0;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .about-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+
+            .modal-body {
+                padding: 2rem;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-categories {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero-content {
+                padding: 1.5rem;
+            }
+
+            .about-image::before {
+                top: -10px;
+                right: -10px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            section {
+                padding: 4rem 1rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .about-content h3 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .contact-methods {
+                gap: 1rem;
+            }
+
+            .contact-method {
+                padding: 1rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .modal-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .modal-section h3 {
+                font-size: 1.4rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .code-snippet {
+                font-size: 0.7rem;
+            }
+
+            .flow-step {
+                min-width: 70px;
+            }
+
+            .flow-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .flow-label {
+                font-size: 0.7rem;
+            }
+
+            .flow-arrow {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ==================== Touch Device Support ==================== */
+        @media (hover: none) and (pointer: coarse) {
+            .project-card {
+                transform: none;
+            }
+
+            .project-card:active {
+                transform: scale(0.98);
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">متین فروتن</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero">خانه</a></li>
+                <li><a href="#about">درباره من</a></li>
+                <li><a href="#skills">مهارت‌ها</a></li>
+                <li><a href="#projects">پروژه‌ها</a></li>
+                <li><a href="#contact">تماس</a></li>
+            </ul>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="animated-bg">
+            <div class="gradient-mesh"></div>
+            
+            <!-- Code Snippets -->
+            <div class="code-snippet">def automate():</div>
+            <div class="code-snippet">import pandas as pd</div>
+            <div class="code-snippet">class BusinessIntelligence:</div>
+            <div class="code-snippet">async def process_data():</div>
+            <div class="code-snippet">from ai import optimize</div>
+            <div class="code-snippet">return success</div>
+            
+            <!-- Geometric Shapes -->
+            <div class="geometric-shape shape-1"></div>
+            <div class="geometric-shape shape-2"></div>
+            <div class="geometric-shape shape-3"></div>
         </div>
 
-        <section id="projects" class="section">
-            <div class="container">
-                <h2 class="section-title">Python Projects</h2>
-                <div class="projects">
-                    <div class="project-card">
-                        <h3>Gpinger</h3>
-                        <p>A powerful ping tool with advanced features for network diagnostics</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>Networking</span>
-                        </div>
-                        <a href="https://github.com/Alofte/Gpinger" class="project-btn" target="_blank">View Project</a>
-                    </div>
-                    
-                    <div class="project-card">
-                        <h3>Spotify Ad Muter</h3>
-                        <p>Automatically mutes Spotify during advertisements</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>Audio Control</span>
-                        </div>
-                        <a href="https://github.com/Alofte/SpotifyAdMuter" class="project-btn" target="_blank">View Project</a>
-                    </div>
-                </div>
-                
-                <div class="github-card">
+        <div class="hero-content" data-aos="fade-up">
+            <h1 class="hero-title">متین فروتن</h1>
+            <div class="hero-subtitle">
+                <span id="typed"></span>
+            </div>
+            <p class="hero-description">
+                برنامه‌نویس پایتون و کارشناس مدیریت بازرگانی با تخصص در اتوماسیون فرآیندهای کسب‌وکار، 
+                تحلیل داده و توسعه سیستم‌های هوشمند سازمانی
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-briefcase"></i>
+                    مشاهده پروژه‌ها
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <i class="fas fa-envelope"></i>
+                    تماس با من
+                </a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon" title="GitHub">
                     <i class="fab fa-github"></i>
-                    <h3>Check More Projects</h3>
-                    <p>Explore more of my projects on GitHub</p>
-                    <a href="https://github.com/Alofte" class="project-btn" target="_blank">Visit GitHub</a>
+                </a>
+                <a href="#" class="social-icon" title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="social-icon" title="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="#" class="social-icon" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title" data-aos="fade-up">درباره من</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            ترکیب منحصربه‌فرد مهارت‌های فنی و کسب‌وکار
+        </p>
+        <div class="about-container">
+            <div class="about-image" data-aos="fade-left">
+                <div class="about-image-content">
+                    <i class="fas fa-laptop-code"></i>
                 </div>
             </div>
-        </section>
-
-        <section id="music" class="section">
-            <h2 class="section-title">Music</h2>
-            <div class="waveform-container">
-                <div class="waveform">
-                    <!-- Bars will be added by JavaScript -->
+            <div class="about-content" data-aos="fade-right">
+                <h3>برنامه‌نویس پایتون و کارشناس مدیریت بازرگانی</h3>
+                <p>
+                    با بیش از X سال تجربه در توسعه راه‌حل‌های نرم‌افزاری و بهینه‌سازی فرآیندهای کسب‌وکار، 
+                    من در تلاقی تکنولوژی و مدیریت فعالیت می‌کنم.
+                </p>
+                <p>
+                    تخصص من در اتوماسیون فرآیندهای سازمانی، تحلیل داده‌های کسب‌وکار و توسعه سیستم‌های 
+                    هوشمند است که به سازمان‌ها کمک می‌کند تا بهره‌وری خود را تا 40% افزایش دهند.
+                </p>
+                <p>
+                    رویکرد من ترکیبی از دانش عمیق برنامه‌نویسی با بینش استراتژیک کسب‌وکار است که 
+                    راه‌حل‌هایی واقعا کاربردی و تاثیرگذار ایجاد می‌کند.
+                </p>
+                <div class="stats">
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="stat-number" data-target="15">0</div>
+                        <div class="stat-label">پروژه موفق</div>
+                    </div>
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="stat-number" data-target="10">0</div>
+                        <div class="stat-label">مشتری راضی</div>
+                    </div>
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="stat-number" data-target="80">0</div>
+                        <div class="stat-label">اتوماسیون فرآیندها</div>
+                    </div>
+                    <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">سال تجربه کاری</div>
+                    </div>
                 </div>
             </div>
-            <div class="spotify-embed">
-                <iframe 
-                    src="https://open.spotify.com/embed/artist/0xdhGWTdZ6bTR0RdkKAqb5?utm_source=generator" 
-                    width="100%" 
-                    height="430" 
-                    frameBorder="0" 
-                    allowfullscreen="" 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-                </iframe>
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="section">
-            <div class="container">
-                <h2 class="section-title">Contact Me</h2>
-                <div class="contact-links">
-                    <a href="mailto:alofte.dev@gmail.com" class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/alofte-py-090680304/" class="contact-item" target="_blank">
-                        <i class="fab fa-linkedin"></i>
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="https://github.com/Alofte" class="contact-item" target="_blank">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                   
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2 class="section-title" data-aos="fade-up">مهارت‌ها و تخصص‌ها</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            ترکیب قدرتمند مهارت‌های فنی و مدیریتی
+        </p>
+        <div class="skills-container">
+            <div class="skills-categories">
+                <!-- Programming Skills -->
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="category-title">برنامه‌نویسی</h3>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Python</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Flask/FastAPI</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Data Analysis (Pandas, NumPy)</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">SQL & Database</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">API Development & Integration</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business & Management Skills -->
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="category-title">مدیریت و کسب‌وکار</h3>
+                    </div>
+                    <div class="skills-list">
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Business Process Automation</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Data-Driven Decision Making</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Project Management</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">AI Integration</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span class="skill-name">Data Visualization</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title" data-aos="fade-up">پروژه‌های برجسته</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            نمونه‌ای از راه‌حل‌های نوآورانه و تاثیرگذار
+        </p>
+
+        <div class="projects-grid">
+            <!-- Project 1: VoIP Automation -->
+            <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="project-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <i class="fas fa-phone-volume"></i>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">سیستم اتوماسیون فروش VoIP</h3>
+                            <span class="project-category">اتوماسیون</span>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        اتوماسیون کامل فرآیند فروش از استخراج داده VoIP تا صدور و ارسال فاکتور با 95% صرفه‌جویی زمانی
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">VoIP API</span>
+                        <span class="tag">PDF Generation</span>
+                        <span class="tag">SMS Gateway</span>
+                    </div>
+                    <div class="project-stats">
+                        <div class="project-stat">
+                            <i class="fas fa-clock"></i>
+                            <span>95% صرفه‌جویی زمانی</span>
+                        </div>
+                        <div class="project-stat">
+                            <i class="fas fa-chart-line"></i>
+                            <span>200+ فاکتور/روز</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="project-expand-btn" onclick="openModal('modal1')">
+                    <span>مشاهده جزئیات کامل</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <!-- Project 2: Performance Management System -->
+            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <i class="fas fa-users-cog"></i>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">سامانه مدیریت عملکرد سازمانی</h3>
+                            <span class="project-category">مدیریت</span>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        پلتفرم جامع تلگرام برای مدیریت حضور، تسک، OKR، گزارش‌دهی با قابلیت‌های هوش مصنوعی
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Telegram Bot</span>
+                        <span class="tag">AI Integration</span>
+                        <span class="tag">RBAC</span>
+                        <span class="tag">Analytics</span>
+                    </div>
+                    <div class="project-stats">
+                        <div class="project-stat">
+                            <i class="fas fa-rocket"></i>
+                            <span>افزایش 40% بهره‌وری</span>
+                        </div>
+                        <div class="project-stat">
+                            <i class="fas fa-building"></i>
+                            <span>سازمان‌های متعدد</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="project-expand-btn" onclick="openModal('modal2')">
+                    <span>مشاهده جزئیات کامل</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <!-- Project 3: BI Dashboard Platform -->
+            <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="project-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <div>
+                            <h3 class="project-title">پلتفرم هوشمند Business Intelligence</h3>
+                            <span class="project-category">تحلیل داده</span>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        تبدیل سیستم‌های اکسلی به داشبوردهای تعاملی با تحلیل هوش مصنوعی و پیش‌بینی روندها
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Plotly Dash</span>
+                        <span class="tag">PostgreSQL</span>
+                    </div>
+                    <div class="project-stats">
+                        <div class="project-stat">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Real-time Analytics</span>
+                        </div>
+                        <div class="project-stat">
+                            <i class="fas fa-bolt"></i>
+                            <span>85% دقت پیش‌بینی</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="project-expand-btn" onclick="openModal('modal3')">
+                    <span>مشاهده جزئیات کامل</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals for Projects -->
+    <!-- Modal 1: VoIP Automation -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('modal1')">&times;</span>
+            <div class="modal-header">
+                <h2>سیستم اتوماسیون فروش VoIP</h2>
+                <p>اتوماسیون End-to-End فرآیند فروش و صدور فاکتور</p>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">VoIP Integration</span>
+                    <span class="tag">PDF Generation</span>
+                    <span class="tag">SMS API</span>
+                    <span class="tag">Automation</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- Animated Data Flow -->
+                <div class="modal-section">
+                    <h3><i class="fas fa-project-diagram"></i> فرآیند اتوماسیون</h3>
+                    <div class="data-flow">
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <span class="flow-label">تماس مشتری</span>
+                        </div>
+                        <div class="flow-arrow">←</div>
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <span class="flow-label">استخراج از VoIP</span>
+                        </div>
+                        <div class="flow-arrow">←</div>
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <span class="flow-label">پردازش داده</span>
+                        </div>
+                        <div class="flow-arrow">←</div>
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <span class="flow-label">تولید PDF</span>
+                        </div>
+                        <div class="flow-arrow">←</div>
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-sms"></i>
+                            </div>
+                            <span class="flow-label">ارسال SMS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-exclamation-circle"></i> چالش کسب‌وکار</h3>
+                    <p>قبل از پیاده‌سازی این سیستم، فرآیند صدور فاکتور به صورت دستی انجام می‌شد:</p>
+                    <ul>
+                        <li>کارشناس فروش پس از تماس، اطلاعات را دستی ثبت می‌کرد</li>
+                        <li>فاکتور در Excel یا Word تایپ می‌شد</li>
+                        <li>میانگین زمان: 15-20 دقیقه برای هر فاکتور</li>
+                        <li>خطای انسانی در قیمت‌گذاری و اطلاعات محصول</li>
+                        <li>تاخیر در ارسال و کاهش رضایت مشتری</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-cogs"></i> راه‌حل طراحی‌شده</h3>
+                    <p><strong>معماری سیستم:</strong></p>
+                    <ul>
+                        <li>دریافت خودکار اطلاعات سفارش از سیستم VoIP</li>
+                        <li>اعتبارسنجی و پردازش داده‌ها</li>
+                        <li>تولید فاکتور PDF با استفاده از کتابخانه‌های Python</li>
+                        <li>آپلود فایل و تولید لینک دانلود</li>
+                        <li>ارسال خودکار پیامک حاوی لینک به مشتری</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-chart-line"></i> نتایج و تاثیرات</h3>
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="impact-number">95%</div>
+                            <div class="impact-label">صرفه‌جویی زمانی</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">100%</div>
+                            <div class="impact-label">حذف خطای انسانی</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">200+</div>
+                            <div class="impact-label">فاکتور/روز</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">&lt;1 دقیقه</div>
+                            <div class="impact-label">زمان تحویل فاکتور</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 2rem;"><strong>مزایای کسب‌وکار:</strong></p>
+                    <ul>
+                        <li>کاهش هزینه نیروی انسانی (نیاز به 2-3 نفر کمتر)</li>
+                        <li>افزایش رضایت مشتری با دریافت فوری فاکتور</li>
+                        <li>قابلیت ردیابی و ثبت خودکار تمام تراکنش‌ها</li>
+                        <li>مقیاس‌پذیری بدون نیاز به نیروی انسانی بیشتر</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-shield-alt"></i> چالش‌های فنی و راه‌حل‌ها</h3>
+                    <ul>
+                        <li><strong>یکپارچه‌سازی با سیستم VoIP قدیمی:</strong> طراحی API wrapper سفارشی</li>
+                        <li><strong>تولید فاکتور استاندارد:</strong> طراحی template قابل تنظیم</li>
+                        <li><strong>اطمینان از تحویل پیامک:</strong> سیستم retry و logging پیشرفته</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-code"></i> تکنولوژی‌ها</h3>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">VoIP API</span>
+                        <span class="tech-item">ReportLab/WeasyPrint</span>
+                        <span class="tech-item">SMS Gateway API</span>
+                        <span class="tech-item">File Storage</span>
+                        <span class="tech-item">Task Scheduling</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Performance Management System -->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('modal2')">&times;</span>
+            <div class="modal-header">
+                <h2>سامانه جامع مدیریت عملکرد سازمانی</h2>
+                <p>سوپراپلیکیشن تلگرام برای مدیریت کامل بهره‌وری سازمان</p>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Telegram Bot</span>
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">RBAC</span>
+                    <span class="tag">Google Calendar</span>
+                    <span class="tag">Analytics</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3><i class="fas fa-exclamation-circle"></i> چالش کسب‌وکار</h3>
+                    <p>سازمان‌ها برای مدیریت عملکرد با چالش‌های متعددی روبرو بودند:</p>
+                    <ul>
+                        <li>پراکندگی ابزارها: استفاده از 5-10 ابزار مختلف برای مدیریت</li>
+                        <li>فرم‌های اکسل دستی، ایمیل‌های طولانی، جلسات بی‌نتیجه</li>
+                        <li>مدیران دید لحظه‌ای از عملکرد تیم نداشتند</li>
+                        <li>2-3 ساعت روزانه صرف ثبت گزارش و پیگیری</li>
+                        <li>عدم امکان سنجش واقعی بهره‌وری و پیشرفت اهداف</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-rocket"></i> راه‌حل طراحی‌شده</h3>
+                    <p>یک <strong>سوپراپلیکیشن سازمانی</strong> در تلگرام که تمام نیازها را در یک پلتفرم یکپارچه می‌کند:</p>
+                    <ul>
+                        <li><strong>احراز هویت و دسترسی:</strong> ورود یک‌کلیکه با Telegram ID + RBAC پیشرفته</li>
+                        <li><strong>اتوماسیون حضور:</strong> ثبت با یک دکمه، Geofence هوشمند، محاسبه خودکار ساعات</li>
+                        <li><strong>سیستم برنامه‌ریزی روزانه:</strong> برنامه فردا ← دایجست صبح ← کار روز ← پیگیری شب</li>
+                        <li><strong>دایجست‌های هوشمند:</strong> خلاصه شخصی برای کارمند + نمای مدیریتی برای مدیر</li>
+                        <li><strong>Meeting Intelligence:</strong> آپلود صوت ← تبدیل به متن با AI ← استخراج مصوبات</li>
+                        <li><strong>OKR/KPI Tracking:</strong> تعریف اهداف، پیگیری پیشرفت، نمایش وضعیت Real-time</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-chart-line"></i> نتایج و تاثیرات</h3>
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="impact-number">2-3 ساعت</div>
+                            <div class="impact-label">صرفه‌جویی روزانه</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">92%</div>
+                            <div class="impact-label">تحویل به‌موقع</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">3×</div>
+                            <div class="impact-label">تحقق اهداف OKR</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">40%</div>
+                            <div class="impact-label">افزایش بهره‌وری</div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 2rem;"><strong>مزایای سازمانی:</strong></p>
+                    <ul>
+                        <li>افزایش 40% بهره‌وری کلی سازمان</li>
+                        <li>تصمیم‌گیری مبتنی بر داده با داشبورد تحلیلی کامل</li>
+                        <li>مقیاس‌پذیری از 10 نفر تا 1000+ نفر</li>
+                        <li>استفاده از پلتفرم آشنا (تلگرام) - بدون نیاز به آموزش</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-shield-alt"></i> چالش‌های فنی و راه‌حل‌ها</h3>
+                    <ul>
+                        <li><strong>پیچیدگی UX در محیط چت:</strong> طراحی Conversational UI بهینه</li>
+                        <li><strong>حجم بالای تعاملات:</strong> معماری Async با صف پیام و Task Queue</li>
+                        <li><strong>امنیت چندسطحی:</strong> RBAC Engine پیشرفته</li>
+                        <li><strong>یکپارچگی Google Calendar:</strong> OAuth2 flow امن + Webhook</li>
+                        <li><strong>پردازش صوت و AI:</strong> OpenAI Whisper + GPT برای summarization</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-code"></i> تکنولوژی‌ها</h3>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">Django/FastAPI</span>
+                        <span class="tech-item">Telegram Bot API</span>
+                        <span class="tech-item">PostgreSQL</span>
+                        <span class="tech-item">Redis</span>
+                        <span class="tech-item">Celery</span>
+                        <span class="tech-item">OpenAI Whisper</span>
+                        <span class="tech-item">GPT-4</span>
+                        <span class="tech-item">Google Calendar API</span>
+                        <span class="tech-item">Docker</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: BI Dashboard Platform -->
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('modal3')">&times;</span>
+            <div class="modal-header">
+                <h2>پلتفرم هوشمند Business Intelligence</h2>
+                <p>تبدیل سیستم‌های سنتی اکسل به داشبوردهای تعاملی با AI</p>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Pandas</span>
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">Plotly Dash</span>
+                    <span class="tag">PostgreSQL</span>
+                    <span class="tag">AI Analytics</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3><i class="fas fa-exclamation-circle"></i> چالش کسب‌وکار</h3>
+                    <p>سازمان‌ها با فرآیندهای سنتی مبتنی بر اکسل دست و پنجه نرم می‌کردند:</p>
+                    <ul>
+                        <li>ده‌ها فایل اکسل پراکنده در ایمیل‌ها و درایوها</li>
+                        <li>هر واحد روزانه 2-4 ساعت داده وارد می‌کرد</li>
+                        <li>15-25% خطا در فرمول‌ها و ورود داده</li>
+                        <li>گزارش‌های هفتگی 2-3 روز طول می‌کشید</li>
+                        <li>تحلیل محدود: فقط جمع و میانگین، بدون insight عمیق</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-rocket"></i> راه‌حل طراحی‌شده</h3>
+                    <p>یک <strong>پلتفرم اتوماسیون و Business Intelligence</strong> که کل چرخه داده را از ورود تا تحلیل هوشمند می‌کند:</p>
+                    
+                    <p><strong>۱. اتوماسیون کامل جمع‌آوری داده:</strong></p>
+                    <ul>
+                        <li>فرم‌های هوشمند وب/موبایل با اعتبارسنجی خودکار</li>
+                        <li>Import خودکار از اکسل (Migration)</li>
+                        <li>یکپارچگی با CRM, ERP موجود</li>
+                    </ul>
+
+                    <p><strong>۲. تحلیل پیشرفته با هوش مصنوعی:</strong></p>
+                    <ul>
+                        <li><strong>Forecasting:</strong> پیش‌بینی روند فروش/موجودی/ریزش مشتری</li>
+                        <li><strong>Anomaly Detection:</strong> شناسایی الگوهای غیرعادی</li>
+                        <li><strong>Smart Recommendations:</strong> توصیه‌های عملیاتی هوشمند</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-chart-line"></i> نتایج و تاثیرات</h3>
+                    <div class="impact-grid">
+                        <div class="impact-item">
+                            <div class="impact-number">99%</div>
+                            <div class="impact-label">سرعت تصمیم‌گیری</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">98%+</div>
+                            <div class="impact-label">دقت داده</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">85%+</div>
+                            <div class="impact-label">دقت پیش‌بینی</div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-number">Real-time</div>
+                            <div class="impact-label">دسترسی به داده</div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 2rem;"><strong>مزایای مالی:</strong></p>
+                    <ul>
+                        <li>ROI: بازگشت سرمایه در 4-6 ماه</li>
+                        <li>30% کاهش هزینه گزارش‌دهی</li>
+                        <li>15-20% رشد درآمد از بهینه‌سازی فرآیندها</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-shield-alt"></i> چالش‌های فنی و راه‌حل‌ها</h3>
+                    <ul>
+                        <li><strong>Migration از صدها فایل اکسل:</strong> ابزار ETL سفارشی</li>
+                        <li><strong>Performance با میلیون‌ها رکورد:</strong> Database Indexing + Caching</li>
+                        <li><strong>Real-time Processing:</strong> Message Queue + Async Processing</li>
+                        <li><strong>دقت مدل‌های AI:</strong> Ensemble Models + Re-training مستمر</li>
+                    </ul>
+                </div>
+
+                <div class="modal-section">
+                    <h3><i class="fas fa-code"></i> تکنولوژی‌ها</h3>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">Django/FastAPI</span>
+                        <span class="tech-item">Pandas</span>
+                        <span class="tech-item">NumPy</span>
+                        <span class="tech-item">PostgreSQL</span>
+                        <span class="tech-item">Redis</span>
+                        <span class="tech-item">Scikit-learn</span>
+                        <span class="tech-item">TensorFlow</span>
+                        <span class="tech-item">Plotly Dash</span>
+                        <span class="tech-item">D3.js</span>
+                        <span class="tech-item">Docker</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title" data-aos="fade-up">تماس با من</h2>
+        <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+            آماده همکاری در پروژه‌های چالش‌برانگیز
+        </p>
+        <div class="contact-container">
+            <div class="contact-info" data-aos="fade-right">
+                <h3>شریک تحول دیجیتال سازمان شما</h3>
+                <p>
+                    اگر به دنبال توسعه راه‌حل‌های نوآورانه برای اتوماسیون فرآیندها، تحلیل داده یا 
+                    بهبود بهره‌وری سازمانی هستید، آماده‌ام تا در کنار شما باشم.
+                </p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>ایمیل</h4>
+                            <p>your.email@example.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>تلفن</h4>
+                            <p>+98 915 435 1614</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>موقعیت</h4>
+                            <p>مشهد، ایران</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>LinkedIn</h4>
+                            <p>linkedin.com/in/yourprofile</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form" data-aos="fade-left" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">نام و نام خانوادگی</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">شماره تلفن</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="09123456789">
+                </div>
+                <div class="form-group">
+                    <label for="subject">موضوع</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">پیام</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="form-submit">
+                    <i class="fas fa-paper-plane"></i>
+                    ارسال پیام
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2024 Alofte. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>درباره</h3>
+                <p>
+                    برنامه‌نویس پایتون و کارشناس مدیریت بازرگانی با تمرکز بر اتوماسیون، 
+                    تحلیل داده و توسعه سیستم‌های هوشمند.
+                </p>
+                <div class="social-links" style="justify-content: flex-start; margin-top: 1.5rem;">
+                    <a href="#" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>لینک‌های سریع</h3>
+                <ul class="footer-links">
+                    <li><a href="#hero"><i class="fas fa-chevron-left"></i> خانه</a></li>
+                    <li><a href="#about"><i class="fas fa-chevron-left"></i> درباره من</a></li>
+                    <li><a href="#skills"><i class="fas fa-chevron-left"></i> مهارت‌ها</a></li>
+                    <li><a href="#projects"><i class="fas fa-chevron-left"></i> پروژه‌ها</a></li>
+                    <li><a href="#contact"><i class="fas fa-chevron-left"></i> تماس</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>تماس</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> your.email@example.com</li>
+                    <li><i class="fas fa-phone"></i> +98 912 345 6789</li>
+                    <li><i class="fas fa-map-marker-alt"></i> تهران، ایران</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 متین فروتن. تمامی حقوق محفوظ است.</p>
+            <p>ساخته شده با <i class="fas fa-heart" style="color: #ec4899;"></i> و Python</p>
         </div>
     </footer>
 
-    <canvas id="matrix-canvas"></canvas>
-    <script src="script.js"></script>
+    <!-- Scroll to Top -->
+    <div id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // ==================== Preloader ====================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // ==================== AOS Initialization ====================
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // ==================== Typed.js ====================
+        new Typed('#typed', {
+            strings: [
+                'برنامه‌نویس پایتون',
+                'کارشناس مدیریت بازرگانی',
+                'توسعه‌دهنده سیستم‌های اتوماسیون',
+                'طراح راه‌حل‌های هوشمند'
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 2000,
+            loop: true
+        });
+
+        // ==================== Navigation ====================
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.getElementById('navLinks');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+
+        // ==================== Theme Toggle ====================
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Set default theme to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const theme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(theme);
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // ==================== Counter Animation ====================
+        let counterAnimated = false;
+
+        function animateCounters() {
+            if (counterAnimated) return;
+
+            const aboutSection = document.getElementById('about');
+            const aboutPosition = aboutSection.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight;
+
+            if (aboutPosition < screenPosition) {
+                const counters = document.querySelectorAll('.stat-number');
+                
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const increment = target / 50;
+                    let current = 0;
+
+                    const updateCounter = () => {
+                        current += increment;
+                        if (current < target) {
+                            counter.textContent = Math.ceil(current) + (target === 80 ? '' : '+');
+                            setTimeout(updateCounter, 40);
+                        } else {
+                            counter.textContent = target + (target === 80 ? '%' : '+');
+                        }
+                    };
+
+                    updateCounter();
+                });
+
+                counterAnimated = true;
+            }
+        }
+
+        window.addEventListener('scroll', animateCounters);
+
+        // ==================== Reading Progress Bar ====================
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        // ==================== Modal Functions ====================
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close modal on Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ==================== Scroll to Top ====================
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.style.display = 'flex';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ==================== Contact Form ====================
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            console.log('Form submitted:', data);
+            
+            alert('پیام شما با موفقیت ارسال شد! به زودی با شما تماس خواهیم گرفت.');
+            
+            e.target.reset();
+        }
+
+        // ==================== Smooth Scroll ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // ==================== Active Navigation Link ====================
+        const sections = document.querySelectorAll('section');
+        const navLinksArray = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinksArray.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // ==================== Tilt Effect for Project Cards ====================
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        projectCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if (window.innerWidth > 968) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 20;
+                    const rotateY = (centerX - x) / 20;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                }
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+    </script>
 </body>
 </html>
