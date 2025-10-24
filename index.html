@@ -609,6 +609,18 @@
         }
 
         /* ==================== About Section ==================== */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+            width: 100%;
+        }
+        
         .about-image-content {
             width: 100%;
             height: 400px;
@@ -621,7 +633,6 @@
             color: white;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
         
         .about-image-content i {
@@ -666,7 +677,6 @@
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.8;
-            text-align: justify;
         }
         
         .stats {
@@ -708,8 +718,6 @@
             margin-top: 0.5rem;
             line-height: 1.3;
         }
-
-
         /* ==================== Skills Section ==================== */
         .skills-container {
             max-width: 1000px;
