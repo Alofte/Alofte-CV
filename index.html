@@ -1246,10 +1246,8 @@
 
         /* ==================== Contact Section ==================== */
         .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .contact-info h3 {
@@ -1323,93 +1321,8 @@
             font-size: 0.95rem;
         }
 
-        /* Neumorphism Form */
-        .contact-form {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            border: 2px solid var(--glass-border);
-        }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: var(--dark-bg);
-            border: 2px solid var(--glass-border);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-family: 'Vazirmatn', sans-serif;
-            transition: var(--transition);
-            font-size: 1rem;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), 
-                        inset -2px -2px 5px rgba(255,255,255,0.05);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-glow),
-                        inset 2px 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-
-        .form-submit {
-            width: 100%;
-            padding: 1.2rem;
-            background: var(--gradient-1);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            font-family: 'Vazirmatn', sans-serif;
-        }
-
-        .form-submit::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .form-submit:active::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .form-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
 
         /* ==================== Footer ==================== */
         footer {
@@ -1531,7 +1444,6 @@
                 display: block;
             }
 
-            .about-container,
             .contact-container {
                 grid-template-columns: 1fr;
                 gap: 3rem;
@@ -1641,9 +1553,6 @@
                 padding: 1rem;
             }
 
-            .contact-form {
-                padding: 1.5rem;
-            }
 
             .footer-content {
                 grid-template-columns: 1fr;
@@ -2416,84 +2325,60 @@
         </div>
     </div>
 
-    <!-- Contact Section -->
+<!-- Contact Section -->
     <section id="contact">
         <h2 class="section-title" data-aos="fade-up">تماس با من</h2>
         <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
             آماده همکاری در پروژه‌های چالش‌برانگیز
         </p>
         <div class="contact-container">
-            <div class="contact-info" data-aos="fade-right">
+            <div class="contact-info" data-aos="fade-up" style="text-align: center;">
                 <h3>شریک تحول دیجیتال سازمان شما</h3>
                 <p>
                     اگر به دنبال توسعه راه‌حل‌های نوآورانه برای اتوماسیون فرآیندها، تحلیل داده یا 
                     بهبود بهره‌وری سازمانی هستید، آماده‌ام تا در کنار شما باشم.
                 </p>
                 <div class="contact-methods">
-                    <div class="contact-method">
+                    <div class="contact-method" data-aos="fade-up" data-aos-delay="100">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-details">
                             <h4>ایمیل</h4>
-                            <p>Alofte.dev@gmail.com</p>
+                            <p>your.email@example.com</p>
                         </div>
                     </div>
-                    <div class="contact-method">
+                    <div class="contact-method" data-aos="fade-up" data-aos-delay="200">
                         <div class="contact-icon">
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="contact-details">
                             <h4>تلفن</h4>
-                            <p>09154351614</p>
+                            <p>+98 912 345 6789</p>
                         </div>
                     </div>
-                    <div class="contact-method">
+                    <div class="contact-method" data-aos="fade-up" data-aos-delay="300">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="contact-details">
                             <h4>موقعیت</h4>
-                            <p>مشهد، ایران</p>
+                            <p>تهران، ایران</p>
                         </div>
                     </div>
-                    <div class="contact-method">
+                    <div class="contact-method" data-aos="fade-up" data-aos-delay="400">
                         <div class="contact-icon">
                             <i class="fab fa-linkedin"></i>
                         </div>
                         <div class="contact-details">
                             <h4>LinkedIn</h4>
-                            <p>https://www.linkedin.com/in/alofte-py-090680304/</p>
+                            <p>linkedin.com/in/yourprofile</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <form class="contact-form" data-aos="fade-left" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label for="name">نام و نام خانوادگی</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">شماره تلفن</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="09123456789">
-                </div>
-                <div class="form-group">
-                    <label for="subject">موضوع</label>
-                    <input type="text" id="subject" name="subject" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">پیام</label>
-                    <textarea id="message" name="message" required></textarea>
-                </div>
-                <button type="submit" class="form-submit">
-                    <i class="fas fa-paper-plane"></i>
-                    ارسال پیام
-                </button>
-            </form>
         </div>
     </section>
-
     <!-- Footer -->
     <footer>
         <div class="footer-content">
@@ -2733,19 +2618,6 @@
             });
         });
 
-        // ==================== Contact Form ====================
-        function handleSubmit(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-            
-            console.log('Form submitted:', data);
-            
-            alert('پیام شما با موفقیت ارسال شد! به زودی با شما تماس خواهیم گرفت.');
-            
-            e.target.reset();
-        }
 
         // ==================== Smooth Scroll ====================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
