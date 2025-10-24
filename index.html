@@ -611,10 +611,9 @@
         /* ==================== About Section ==================== */
         .about-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
         
         .about-image {
@@ -1437,7 +1436,12 @@
                 box-shadow: var(--shadow-lg);
                 padding: 2rem 0;
             }
-
+        
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }            
+            
             .nav-links.active {
                 left: 0;
             }
@@ -1489,6 +1493,7 @@
                 top: -10px;
                 right: -10px;
             }
+
         }
 
         @media (max-width: 640px) {
